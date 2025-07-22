@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Student Profile</h2>
+
+  {% if context.student_profile %}
+  <table class="table table-bordered table-striped mt-3">
+    <tbody>
+      <tr>
+        <th>Username</th>
+        <td>{{ context.student_user }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ context.student_profile.email }}</td>
+      </tr>
+      <tr>
+        <th>Skills</th>
+        <td>{{ context.student_user.skills }}</td>
+      </tr>
+      <tr>
+        <th>Resume</th>
+        <td>
+          {% if context.student_user.resume %}
+            <a href="{{ context.student_user.resume.url }}" class="btn btn-sm btn-primary" download="resume.pdf">Download Resume</a>
+          {% else %}
+            <span class="text-muted">No resume uploaded.</span>
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>Action</th>
+        <td>
+         <a href="{% url 'update_status' context.application.pk 'accept' %}" class="btn btn-sm btn-success">Accept</a>
+         <a href="{% url 'update_status' context.application.pk 'reject' %}" class="btn btn-sm btn-danger">Reject</a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  {% else %}
+    <p>No student profile available.</p>
+  {% endif %}
+
+  <a href="{% url 'company_dashboard' %}" class="btn btn-secondary mt-3">Back</a>
+
+
+
+</div>
+{% endblock %}

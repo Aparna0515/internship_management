@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Welcome, {{ company.company_name }}</h3>
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h5>Your Internship Listings</h5>
+    <a href="{% url 'create_internship' %}" class="btn btn-success">+ Post New Internship</a>
+  </div>
+
+  {% for internship in internships %}
+  <div class="card mb-3">
+    <div class="card-header">
+      {{ internship.title|upper }} — <small><B>Last Date: {{ internship.deadline|date:"d M Y" }}</B></small>
+    </div>
+    <div class="card-body">
+      <p><b>{{ internship.description|title }}</b></p>
+      <h6>Applications</h6>
+      <br>
+      {% if internship.applications.all %}
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Email</th>
+            
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in internship.applications.all %}
+          <tr>
+            <td>{{ app.student.user.get_username }}</td>
+            <td>{{ app.student.user.email }}</td>
+           
+            <td>
+            <a href="{% url 'view_application' app.pk %}" class="btn btn-primary">View </a>
+            </td>
+
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No applications yet.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p>No internships posted yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

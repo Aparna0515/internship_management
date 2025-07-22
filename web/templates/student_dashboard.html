@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Welcome, {{ student.user.username }}</h3>
+  <div class="card mt-4">
+    <div class="card-header bg-primary text-white">Your Applications</div>
+    <div class="card-body p-0">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Internship</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Applied On</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in applications %}
+          <tr>
+            <td>{{ app.internship.title }}</td>
+            <td>{{ app.internship.company.company_name }}</td>
+            <td>
+              {% if app.status == 1 %}
+              <span class="badge bg-warning">Applied</span>
+              {% elif app.status == 2 %}
+              <span class="badge bg-success">Accepted</span>
+              {% elif app.status == 3 %}
+              <span class="badge bg-danger">Rejected</span>
+              {% endif %}
+            </td>
+            <td>{{ app.applied_at|date:"d M Y" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-center">No applications found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
